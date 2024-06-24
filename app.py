@@ -17,15 +17,15 @@ if 'results' not in st.session_state:
 
 st.subheader("Step2: 条件の入力")
 # ユーザー入力
-your_private_area_before_sqm = st.number_input("あなたの建替前の専有面積（平米）", value=76.6)
-total_floor_area_before_sqm = st.number_input("建替前_総床面積（平米）", value=2398)
-total_private_area_before_sqm = st.number_input("建替前_総専有面積（平米）", value=1893)
-total_floor_area_after_sqm = st.number_input("建替後_総床面積（平米）", value=4628)
-total_private_area_after_sqm = st.number_input("建替後_総専有面積（平米）", value=3041)
-construction_cost_per_private_area_tsubo = st.number_input("工事単価（専有面積当）（円／坪）", value=2500000)
-other_expenses_rate = st.number_input("建築工事費以外の事業費を含める掛率（例：1.25）", value=1.25)
-sales_price_tsubo = st.number_input("分譲価格（円／坪）", value=7500000)
-reserved_floor_purchase_price_rate = st.number_input("保留床買取価格率（原価率）", value=0.7)
+your_private_area_before_sqm = st.number_input("あなたの建替前の専有面積（平米）※平米単位で上下できます", value=77, step=1)
+construction_cost_per_private_area_tsubo = st.number_input("工事単価（専有面積当）（円／坪）※十万円単位で上下できます", value=2500000,step=100000)
+sales_price_tsubo = st.number_input("分譲価格（円／坪）※十万円単位で上下できます", value=7500000,step=100000)
+other_expenses_rate = st.number_input("建築工事費以外の事業費を含める掛率（例：1.25）", value=1.25,step=0.01)
+reserved_floor_purchase_price_rate = st.number_input("保留床買取価格率（原価率）", value=0.70, step=0.01)
+total_floor_area_before_sqm = st.number_input("建替前_マンションの総床面積（平米）", value=2398, step=1)
+total_private_area_before_sqm = st.number_input("建替前_マンションの総専有面積（平米）", value=1893, step=1)
+total_floor_area_after_sqm = st.number_input("建替後_マンションの総床面積（平米）", value=4628, step=1)
+total_private_area_after_sqm = st.number_input("建替後_マンションの総専有面積（平米）", value=3041, step=1)
 
 # 計算を行う関数
 def calculate_results():
