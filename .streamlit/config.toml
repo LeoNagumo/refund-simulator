@@ -1,0 +1,13 @@
+[server]
+# スリープ復帰後もセッションを保持するためTTLを延長（デフォルト120秒→3600秒）
+disconnectedSessionTTL = 3600
+
+# WebSocket圧縮を有効化（再接続時のデータ転送を効率化）
+enableWebsocketCompression = true
+
+[client]
+# エラー発生時に詳細を表示（デバッグ容易化）
+showErrorDetails = "full"
+
+[browser]
+gatherUsageStats = false

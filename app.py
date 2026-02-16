@@ -1,6 +1,9 @@
-﻿import streamlit as st
+import streamlit as st
 import json
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 # ページ全体の設定（横幅広め・タイトルなど）
 st.set_page_config(page_title="マンション建替シミュレーション", layout="wide")
@@ -31,10 +34,19 @@ folder_name = st.text_input(
     help="入力すると results/＜フォルダ名＞ 配下に保存します。空欄なら results/ 配下に保存します。",
 )
 RESULTS_DIR = os.path.join("results", folder_name) if folder_name else "results"
-os.makedirs(RESULTS_DIR, exist_ok=True)
+try:
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+except OSError as e:
+    logger.warning("フォルダ作成に失敗: %s", e)
+    st.warning(f"保存先フォルダの作成に失敗しました: {e}")
+    RESULTS_DIR = "results"
+    os.makedirs(RESULTS_DIR, exist_ok=True)
 
-# セッション状態の初期化
+# セッション状態の初期化・検証
 if "results" not in st.session_state:
+    st.session_state.results = None
+elif not isinstance(st.session_state.results, (dict, type(None))):
+    logger.warning("セッション状態が不正です。リセットします。")
     st.session_state.results = None
 
 
@@ -251,16 +263,22 @@ with tab_store:
         can_save = st.session_state.results is not None and bool(file_name.strip())
         if st.button("結果を保存", use_container_width=True, disabled=not can_save):
             try:
+                os.makedirs(RESULTS_DIR, exist_ok=True)
                 with open(os.path.join(RESULTS_DIR, f"{file_name}.json"), "w", encoding="utf-8") as f:
                     json.dump(st.session_state.results, f, ensure_ascii=False, indent=4)
                 st.success(f"保存しました: {file_name}.json")
-            except Exception as e:
+            except OSError as e:
                 st.error(f"保存中にエラーが発生しました: {e}")
 
     st.divider()
 
     # 保存された結果の読み込み
-    saved_files = sorted([f for f in os.listdir(RESULTS_DIR) if f.endswith(".json")])
+    try:
+        saved_files = sorted([f for f in os.listdir(RESULTS_DIR) if f.endswith(".json")])
+    except OSError as e:
+        logger.warning("ファイル一覧の取得に失敗: %s", e)
+        st.warning(f"保存先フォルダにアクセスできません: {e}")
+        saved_files = []
     cols = st.columns([2, 1])
     with cols[0]:
         selected_file = st.selectbox("読み込むファイルを選択", saved_files)
@@ -269,9 +287,14 @@ with tab_store:
             try:
                 with open(os.path.join(RESULTS_DIR, selected_file), "r", encoding="utf-8") as f:
                     loaded = json.load(f)
-                st.session_state.results = loaded
-                st.success(f"読み込みました: {selected_file}")
-            except Exception as e:
-                st.error(f"読み込み中にエラーが発生しました: {e}")
+                if not isinstance(loaded, dict):
+                    st.error("ファイルの形式が正しくありません。")
+                else:
+                    st.session_state.results = loaded
+                    st.success(f"読み込みました: {selected_file}")
+            except (json.JSONDecodeError, UnicodeDecodeError) as e:
+                st.error(f"ファイルの解析に失敗しました: {e}")
+            except OSError as e:
+                st.error(f"ファイルの読み込みに失敗しました: {e}")
 
     st.markdown("</div>", unsafe_allow_html=True)
