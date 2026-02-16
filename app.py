@@ -91,7 +91,7 @@ def calculate_results(
 
     # 表示用のまとめ
     results = {
-        "減歩率（マンション共通・%）": reduced_area_ratio * 100,
+        "還元率（マンション共通・%）": reduced_area_ratio * 100,
         "取得できる専有面積（平米）": your_private_area_after_sqm,
         "その換算売却価格（円）": your_private_area_sellingprice,
         "同面積取得に必要な負担額（円）": your_cost_to_acquire_area_before,
@@ -200,7 +200,7 @@ with tab_result:
         # 主要KPIをメトリクス表示
         m1, m2, m3 = st.columns(3)
         with m1:
-            st.metric("減歩率（共通）", f"{st.session_state.results['減歩率（マンション共通・%）']:.2f}%")
+            st.metric("還元率（共通）", f"{st.session_state.results['還元率（マンション共通・%）']:.2f}%")
         with m2:
             st.metric(
                 "取得できる専有面積",
@@ -225,7 +225,7 @@ with tab_result:
         st.markdown("##### 一覧")
         # 見やすい一覧（主要項目のみ）
         show_items = [
-            ("減歩率（マンション共通・%）", st.session_state.results["減歩率（マンション共通・%）"], "%"),
+            ("還元率（マンション共通・%）", st.session_state.results["還元率（マンション共通・%）"], "%"),
             ("取得できる専有面積（平米）", st.session_state.results["取得できる専有面積（平米）"], "平米"),
             ("その換算売却価格（円）", st.session_state.results["その換算売却価格（円）"], "円"),
             ("同面積取得に必要な負担額（円）", st.session_state.results["同面積取得に必要な負担額（円）"], "円"),
