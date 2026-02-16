@@ -126,17 +126,19 @@ with tab_input:
         with c1:
             construction_cost_per_private_area_tsubo = st.number_input(
                 "工事単価（専有・坪）",
-                value=2_500_000.0,
-                step=100_000.0,
-                min_value=0.0,
+                value=2_500_000,
+                step=100_000,
+                min_value=0,
+                format="%d",
                 help="専有面積当たりの坪単価（目安）",
             )
         with c2:
             sales_price_tsubo = st.number_input(
                 "販売価格（坪・円）",
-                value=7_500_000.0,
-                step=100_000.0,
-                min_value=0.0,
+                value=7_500_000,
+                step=100_000,
+                min_value=0,
+                format="%d",
             )
         with c3:
             other_expenses_rate = st.number_input(
@@ -147,49 +149,50 @@ with tab_input:
                 help="例: 1.25 で 25% 上乗せ",
             )
         with c4:
-            reserved_floor_purchase_price_rate = st.number_input(
-                "保留床買取価格の原価率",
-                value=0.70,
-                step=0.01,
-                min_value=0.0,
-                max_value=1.0,
+            reserved_floor_purchase_price_rate_pct = st.number_input(
+                "保留床買取価格の原価率（%）",
+                value=70,
+                step=1,
+                min_value=0,
+                max_value=100,
+                format="%d",
             )
 
         st.markdown("##### 建替前の条件")
         b1, b2 = st.columns(2)
         with b1:
             total_floor_area_before_sqm = st.number_input(
-                "総床面積（平米・建替前）", value=2398.0, step=1.0, min_value=0.0
+                "総床面積（平米・建替前）", value=2_398, step=1, min_value=0, format="%d"
             )
         with b2:
             total_private_area_before_sqm = st.number_input(
-                "総専有面積（平米・建替前）", value=1893.0, step=1.0, min_value=0.0
+                "総専有面積（平米・建替前）", value=1_893, step=1, min_value=0, format="%d"
             )
 
         st.markdown("##### 建替後の条件")
         a1, a2 = st.columns(2)
         with a1:
             total_floor_area_after_sqm = st.number_input(
-                "総床面積（平米・建替後）", value=4628.0, step=1.0, min_value=0.0
+                "総床面積（平米・建替後）", value=4_628, step=1, min_value=0, format="%d"
             )
         with a2:
             total_private_area_after_sqm = st.number_input(
-                "総専有面積（平米・建替後）", value=3041.0, step=1.0, min_value=0.0
+                "総専有面積（平米・建替後）", value=3_041, step=1, min_value=0, format="%d"
             )
 
         submitted = st.form_submit_button("計算する", use_container_width=True)
 
         if submitted:
             st.session_state.results = calculate_results(
-                your_private_area_before_sqm,
-                construction_cost_per_private_area_tsubo,
-                sales_price_tsubo,
+                float(your_private_area_before_sqm),
+                float(construction_cost_per_private_area_tsubo),
+                float(sales_price_tsubo),
                 other_expenses_rate,
-                reserved_floor_purchase_price_rate,
-                total_floor_area_before_sqm,
-                total_private_area_before_sqm,
-                total_floor_area_after_sqm,
-                total_private_area_after_sqm,
+                reserved_floor_purchase_price_rate_pct / 100.0,
+                float(total_floor_area_before_sqm),
+                float(total_private_area_before_sqm),
+                float(total_floor_area_after_sqm),
+                float(total_private_area_after_sqm),
             )
     st.markdown("</div>", unsafe_allow_html=True)
 
