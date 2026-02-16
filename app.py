@@ -125,7 +125,7 @@ with tab_input:
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             construction_cost_per_private_area_tsubo = st.number_input(
-                "工事単価（専有平米→共有含む床・坪単価に換算）",
+                "工事単価（専有・坪）",
                 value=2_500_000.0,
                 step=100_000.0,
                 min_value=0.0,
