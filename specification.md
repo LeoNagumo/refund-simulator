@@ -49,17 +49,17 @@ flowchart LR
 
 フォーム形式で9つのパラメータを入力し、「計算する」ボタンで計算を実行する。
 
-| # | パラメータ | 変数名 | デフォルト値 | 単位 | 制約 |
-|---|----------|--------|-------------|------|------|
-| 1 | 建替前の専有面積 | `your_private_area_before_sqm` | 77.0 | 平米 | >= 0 |
-| 2 | 工事単価（専有・坪） | `construction_cost_per_private_area_tsubo` | 2,500,000 | 円/坪 | >= 0 |
-| 3 | 販売価格（坪） | `sales_price_tsubo` | 7,500,000 | 円/坪 | >= 0 |
-| 4 | 事業費掛率 | `other_expenses_rate` | 1.25 | 倍 | >= 0 |
-| 5 | 保留床買取原価率 | `reserved_floor_purchase_price_rate` | 0.70 | 割合 | 0〜1 |
-| 6 | 総床面積（建替前） | `total_floor_area_before_sqm` | 2,398 | 平米 | >= 0 |
-| 7 | 総専有面積（建替前） | `total_private_area_before_sqm` | 1,893 | 平米 | >= 0 |
-| 8 | 総床面積（建替後） | `total_floor_area_after_sqm` | 4,628 | 平米 | >= 0 |
-| 9 | 総専有面積（建替後） | `total_private_area_after_sqm` | 3,041 | 平米 | >= 0 |
+| # | パラメータ | 変数名 | デフォルト値 | 単位 | 表示形式 | 制約 |
+|---|----------|--------|-------------|------|---------|------|
+| 1 | 建替前の専有面積 | `your_private_area_before_sqm` | 77.0 | 平米 | 小数1桁 | >= 0 |
+| 2 | 工事単価（専有・坪） | `construction_cost_per_private_area_tsubo` | 2,500,000 | 円/坪 | 整数 | >= 0 |
+| 3 | 販売価格（坪） | `sales_price_tsubo` | 7,500,000 | 円/坪 | 整数 | >= 0 |
+| 4 | 事業費掛率 | `other_expenses_rate` | 1.25 | 倍 | 小数2桁 | >= 0 |
+| 5 | 保留床買取原価率（%） | `reserved_floor_purchase_price_rate_pct` | 70 | % | 整数 | 0〜100 |
+| 6 | 総床面積（建替前） | `total_floor_area_before_sqm` | 2,398 | 平米 | 整数 | >= 0 |
+| 7 | 総専有面積（建替前） | `total_private_area_before_sqm` | 1,893 | 平米 | 整数 | >= 0 |
+| 8 | 総床面積（建替後） | `total_floor_area_after_sqm` | 4,628 | 平米 | 整数 | >= 0 |
+| 9 | 総専有面積（建替後） | `total_private_area_after_sqm` | 3,041 | 平米 | 整数 | >= 0 |
 
 ### 4.2 タブ2: 結果
 
